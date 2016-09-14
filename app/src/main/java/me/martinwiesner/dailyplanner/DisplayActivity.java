@@ -25,7 +25,6 @@ public class DisplayActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.item_edit:
                 startActivity(new Intent(this, EditActivity.class));
