@@ -41,11 +41,7 @@ public class EditActivity extends AppCompatActivity {
                 tasks = (List<Task>) objectInputStream.readObject();
                 if (tasks == null)
                     tasks = new ArrayList<>();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -54,8 +50,6 @@ public class EditActivity extends AppCompatActivity {
                 FileOutputStream fileOutputStream = openFileOutput(selectedDay + ".dat", MODE_PRIVATE);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(tasks);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,11 +101,7 @@ public class EditActivity extends AppCompatActivity {
             if (tasks == null)
                 tasks = new ArrayList<>();
             updateList(tasks);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
