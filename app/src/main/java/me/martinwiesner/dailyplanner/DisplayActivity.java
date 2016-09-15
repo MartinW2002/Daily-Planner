@@ -1,6 +1,7 @@
 package me.martinwiesner.dailyplanner;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,8 +30,8 @@ public class DisplayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
-
         selectedDay = "monday";
+        selectDay("monday");
 
         List<Task> tasks = new ArrayList<>();
         try {
@@ -70,26 +72,26 @@ public class DisplayActivity extends AppCompatActivity {
     public void onClick(View view) {
         String day = "";
         switch (view.getId()) {
-            case R.id.textview_monday:
-                day = "monday";
+            case R.id.textview_monday_dis:
+                selectDay("monday");
                 break;
-            case R.id.textview_tuesday:
-                day = "tuesday";
+            case R.id.textview_tuesday_dis:
+                selectDay("tuesday");
                 break;
-            case R.id.textview_wednesday:
-                day = "wednesday";
+            case R.id.textview_wednesday_dis:
+                selectDay("wednesday");
                 break;
-            case R.id.textview_thursday:
-                day = "thursday";
+            case R.id.textview_thursday_dis:
+                selectDay("thursday");
                 break;
-            case R.id.textview_friday:
-                day = "friday";
+            case R.id.textview_friday_dis:
+                selectDay("friday");
                 break;
-            case R.id.textview_saturday:
-                day = "saturday";
+            case R.id.textview_saturday_dis:
+                selectDay("saturday");
                 break;
-            case R.id.textview_sunday:
-                day = "sunday";
+            case R.id.textview_sunday_dis:
+                selectDay("sunday");
                 break;
             default:
                 new Exception("Invalid view").printStackTrace();
@@ -109,5 +111,59 @@ public class DisplayActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview_edit, tasksStrings);
         ListView listView = (ListView) findViewById(R.id.listview_edit);
         listView.setAdapter(adapter);
+    }
+
+    private void selectDay(String day) {
+        TextView dayTextView = null;
+        switch (day) {
+            case "monday":
+                dayTextView = (TextView) findViewById(R.id.textview_monday_dis);
+                break;
+            case "tuesday":
+                dayTextView = (TextView) findViewById(R.id.textview_tuesday_dis);
+                break;
+            case "wednesday":
+                dayTextView = (TextView) findViewById(R.id.textview_wednesday_dis);
+                break;
+            case "thursday":
+                dayTextView = (TextView) findViewById(R.id.textview_thursday_dis);
+                break;
+            case "friday":
+                dayTextView = (TextView) findViewById(R.id.textview_friday_dis);
+                break;
+            case "saturday":
+                dayTextView = (TextView) findViewById(R.id.textview_saturday_dis);
+                break;
+            case "sunday":
+                dayTextView = (TextView) findViewById(R.id.textview_sunday_dis);
+                break;
+        }
+        TextView oldDayTextView = null;
+        switch (selectedDay) {
+            case "monday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_monday_dis);
+                break;
+            case "tuesday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_tuesday_dis);
+                break;
+            case "wednesday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_wednesday_dis);
+                break;
+            case "thursday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_thursday_dis);
+                break;
+            case "friday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_friday_dis);
+                break;
+            case "saturday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_saturday_dis);
+                break;
+            case "sunday":
+                oldDayTextView = (TextView) findViewById(R.id.textview_sunday_dis);
+                break;
+        }
+        oldDayTextView.setTypeface(null, Typeface.NORMAL);
+        dayTextView.setTypeface(null, Typeface.BOLD);
+        selectedDay = day;
     }
 }
