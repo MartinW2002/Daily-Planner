@@ -87,6 +87,16 @@
 
     </ListView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_noplan"
+        android:text="Nothing is planned for the selected day."
+        android:textSize="15dp"
+        android:layout_below="@id/hsview_day_picker"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_height="wrap_content"

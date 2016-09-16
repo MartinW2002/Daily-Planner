@@ -2,9 +2,8 @@ package me.martinwiesner.dailyplanner;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,22 +14,25 @@ import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayActivity extends AppCompatActivity {
 
     private String selectedDay;
+    private TextView noPlanTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
+
         selectedDay = "monday";
+        noPlanTextView = (TextView) findViewById(R.id.textview_noplan_dis);
+
+        noPlanTextView.setVisibility(View.INVISIBLE);
         selectDay("monday");
 
         updateList(getTasks(selectedDay));
@@ -83,14 +85,14 @@ public class DisplayActivity extends AppCompatActivity {
     }
 
     private void updateList(List<Task> tasks) {
-        Log.e("Display", "length: " + tasks.size());
         List<String> tasksStrings = new ArrayList<>();
         for (Task task : tasks) {
             tasksStrings.add(task.getTask());
         }
         if (tasksStrings.size() == 0) {
-            // TODO: 14-Sep-16 Tell the user
-            return;
+            noPlanTextView.setVisibility(View.VISIBLE);
+        } else {
+            noPlanTextView.setVisibility(View.INVISIBLE);
         }
         if (tasksStrings == null) {
             tasksStrings = new ArrayList<>();
