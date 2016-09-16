@@ -1,6 +1,7 @@
 package me.martinwiesner.dailyplanner;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +38,18 @@ public class DisplayActivity extends AppCompatActivity {
         selectDay("monday");
 
         updateList(getTasks(selectedDay));
+
+        ListView ls = (ListView) findViewById(R.id.listview_display);
+        ls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView textView = (TextView) view;
+                if (textView.getPaint().isStrikeThruText())
+                    textView.setPaintFlags(0);
+                else
+                    textView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+        });
     }
 
     @Override

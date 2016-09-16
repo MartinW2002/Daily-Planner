@@ -15,10 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -163,9 +161,9 @@ public class EditActivity extends AppCompatActivity {
         } else {
             noPlanTextView.setVisibility(View.INVISIBLE);
         }
-        if (tasksStrings == null) {
-            tasksStrings = new ArrayList<>();
-        }
+        //if (tasksStrings == null) {
+          //  tasksStrings = new ArrayList<>();
+        //}
         ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview_edit, tasksStrings);
         adapter.notifyDataSetChanged();
         ListView listView = (ListView) findViewById(R.id.listview_edit);
@@ -230,16 +228,12 @@ public class EditActivity extends AppCompatActivity {
     private List<Task> getTasks(String day) {
         List<Task> tasks = new ArrayList<>();
         try {
-            FileInputStream fileInputStream = openFileInput(selectedDay + ".dat");
+            FileInputStream fileInputStream = openFileInput(day + ".dat");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             tasks = (List<Task>) objectInputStream.readObject();
             if (tasks == null)
                 tasks = new ArrayList<>();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         return tasks;
