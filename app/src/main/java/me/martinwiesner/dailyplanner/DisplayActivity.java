@@ -70,7 +70,6 @@ public class DisplayActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        String day = "";
         switch (view.getId()) {
             case R.id.textview_monday_dis:
                 selectDay("monday");
@@ -108,8 +107,12 @@ public class DisplayActivity extends AppCompatActivity {
             // TODO: 14-Sep-16 Tell the user
             return;
         }
-        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview_edit, tasksStrings);
-        ListView listView = (ListView) findViewById(R.id.listview_edit);
+        if (tasksStrings == null) {
+            tasksStrings = new ArrayList<>();
+        }
+        Log.e("Display", tasksStrings.toString());
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview_display, tasksStrings);
+        ListView listView = (ListView) findViewById(R.id.listview_display);
         listView.setAdapter(adapter);
     }
 
