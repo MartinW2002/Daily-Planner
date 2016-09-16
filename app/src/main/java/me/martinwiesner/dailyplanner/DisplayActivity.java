@@ -33,22 +33,7 @@ public class DisplayActivity extends AppCompatActivity {
         selectedDay = "monday";
         selectDay("monday");
 
-        List<Task> tasks = new ArrayList<>();
-        try {
-            FileInputStream fileInputStream = openFileInput(selectedDay + ".dat");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            tasks = (List<Task>) objectInputStream.readObject();
-            if (tasks == null)
-                tasks = new ArrayList<>();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        updateList(tasks);
+        updateList(getTasks(selectedDay));
     }
 
     @Override
@@ -168,5 +153,23 @@ public class DisplayActivity extends AppCompatActivity {
         oldDayTextView.setTypeface(null, Typeface.NORMAL);
         dayTextView.setTypeface(null, Typeface.BOLD);
         selectedDay = day;
+    }
+
+    private List<Task> getTasks(String day) {
+        List<Task> tasks = new ArrayList<>();
+        try {
+            FileInputStream fileInputStream = openFileInput(selectedDay + ".dat");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            tasks = (List<Task>) objectInputStream.readObject();
+            if (tasks == null)
+                tasks = new ArrayList<>();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return tasks;
     }
 }
