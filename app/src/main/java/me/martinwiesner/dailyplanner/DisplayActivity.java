@@ -95,8 +95,8 @@ public class DisplayActivity extends AppCompatActivity {
         if (tasksStrings == null) {
             tasksStrings = new ArrayList<>();
         }
-        Log.e("Display", tasksStrings.toString());
         ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview_display, tasksStrings);
+        adapter.notifyDataSetChanged();
         ListView listView = (ListView) findViewById(R.id.listview_display);
         listView.setAdapter(adapter);
     }
@@ -153,6 +153,7 @@ public class DisplayActivity extends AppCompatActivity {
         oldDayTextView.setTypeface(null, Typeface.NORMAL);
         dayTextView.setTypeface(null, Typeface.BOLD);
         selectedDay = day;
+        updateList(getTasks(day));
     }
 
     private List<Task> getTasks(String day) {

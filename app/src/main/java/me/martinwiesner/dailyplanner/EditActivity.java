@@ -36,26 +36,10 @@ public class EditActivity extends AppCompatActivity {
 
         if (getIntent().getExtras() != null) {
             selectedDay = getIntent().getExtras().getString("DAY");
-            List<Task> tasks = new ArrayList<>();
 
-            try {
-                FileInputStream fileInputStream = openFileInput(selectedDay + ".dat");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                tasks = (List<Task>) objectInputStream.readObject();
-                if (tasks == null)
-                    tasks = new ArrayList<>();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
+            List<Task> tasks = getTasks(selectedDay);
             tasks.add(new Task(getIntent().getExtras().getString("TASK_NAME"), false));
-            try {
-                FileOutputStream fileOutputStream = openFileOutput(selectedDay + ".dat", MODE_PRIVATE);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(tasks);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            setTasks(selectedDay, tasks);
             updateList(tasks);
         }
 
@@ -132,7 +116,15 @@ public class EditActivity extends AppCompatActivity {
         for (Task task : tasks) {
             tasksStrings.add(task.getTask());
         }
+        if (tasksStrings.size() == 0) {
+            // TODO: 14-Sep-16 Tell the user
+            return;
+        }
+        if (tasksStrings == null) {
+            tasksStrings = new ArrayList<>();
+        }
         ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview_edit, tasksStrings);
+        adapter.notifyDataSetChanged();
         ListView listView = (ListView) findViewById(R.id.listview_edit);
         listView.setAdapter(adapter);
     }
@@ -189,5 +181,35 @@ public class EditActivity extends AppCompatActivity {
         oldDayTextView.setTypeface(null, Typeface.NORMAL);
         dayTextView.setTypeface(null, Typeface.BOLD);
         selectedDay = day;
+        updateList(getTasks(day));
     }
+
+    private List<Task> getTasks(String day) {
+        List<Task> tasks = new ArrayList<>();
+        try {
+            FileInputStream fileInputStream = openFileInput(selectedDay + ".dat");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            tasks = (List<Task>) objectInputStream.readObject();
+            if (tasks == null)
+                tasks = new ArrayList<>();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    private void setTasks(String day, List<Task> tasks){
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(day + ".dat", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(tasks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
